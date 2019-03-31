@@ -1,0 +1,111 @@
+<div class="mat-paginator-outer-container mt-2">
+  <div class="mat-paginator-container">
+
+    <div class="d-flex justify-content-between">
+
+      <div class="mat-paginator-page-size" *ngIf="!hidePageSize">
+        <div class="mat-paginator-page-size-label">
+          Page :
+        </div>
+
+        <mat-form-field
+          *ngIf="tabPages.length > 1"
+          [color]="color"
+          class="mat-paginator-page-size-select">
+          <mat-select
+            [value]="pageIndex + 1"
+            [disabled]="disabled"
+            [aria-label]="_intl.itemsPerPageLabel"
+            (selectionChange)="_changePage($event.value)">
+            <mat-option *ngFor="let pageOption of tabPages"
+                        [value]="pageOption">
+              {{pageOption}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div *ngIf="tabPages.length <= 1">{{getNumberOfPages()}}</div>&nbsp;/ {{getNumberOfPages()}}
+      </div>
+
+      <div class="mat-paginator-range-actions">
+        <button mat-icon-button type="button"
+                class="mat-paginator-navigation-first"
+                (click)="firstPage()"
+                [attr.aria-label]="_intl.firstPageLabel"
+                [matTooltip]="_intl.firstPageLabel"
+                [matTooltipDisabled]="_previousButtonsDisabled()"
+                [matTooltipPosition]="'above'"
+                [disabled]="_previousButtonsDisabled()"
+                *ngIf="showFirstLastButtons">
+          <mat-icon class="icon rss-font-color">fast_rewind</mat-icon>
+        </button>
+        <button mat-icon-button type="button"
+                class="mat-paginator-navigation-previous"
+                (click)="previousPage()"
+                [attr.aria-label]="_intl.previousPageLabel"
+                [matTooltip]="_intl.previousPageLabel"
+                [matTooltipDisabled]="_previousButtonsDisabled()"
+                [matTooltipPosition]="'above'"
+                [disabled]="_previousButtonsDisabled()">
+          <mat-icon class="icon rss-font-color">chevron_left</mat-icon>
+        </button>
+
+        <a class="mx-2" *ngIf=" (_pageIndex - ecart) > 0 ">...</a>
+        <ng-container *ngFor="let pageOption of tabPages; index as i">
+          <a class="mx-2" [ngClass]="pageOption === (pageIndex + 1) ? 'selected' : ''"
+             (click)="_changePage(pageOption)"
+             *ngIf="((i + 1) > (_pageIndex - ecart)) && ((i - 1) < (_pageIndex + ecart))">{{pageOption}}</a>
+        </ng-container>
+        <a class="mx-2" *ngIf="(_pageIndex + 1) < (tabPages.length - ecart)">...</a>
+
+        <button mat-icon-button type="button"
+                class="mat-paginator-navigation-next"
+                (click)="nextPage()"
+                [attr.aria-label]="_intl.nextPageLabel"
+                [matTooltip]="_intl.nextPageLabel"
+                [matTooltipDisabled]="_nextButtonsDisabled()"
+                [matTooltipPosition]="'above'"
+                [disabled]="_nextButtonsDisabled()">
+          <mat-icon class="icon rss-font-color">chevron_right</mat-icon>
+        </button>
+        <button mat-icon-button type="button"
+                class="mat-paginator-navigation-last"
+                (click)="lastPage()"
+                [attr.aria-label]="_intl.lastPageLabel"
+                [matTooltip]="_intl.lastPageLabel"
+                [matTooltipDisabled]="_nextButtonsDisabled()"
+                [matTooltipPosition]="'above'"
+                [disabled]="_nextButtonsDisabled()"
+                *ngIf="showFirstLastButtons">
+          <mat-icon class="icon rss-font-color">fast_forward</mat-icon>
+        </button>
+      </div>
+
+      <div class="mat-paginator-page-size" *ngIf="!hidePageSize">
+        <div class="mat-paginator-page-size-label">
+          {{_intl.itemsPerPageLabel}}
+        </div>
+
+        <mat-form-field
+          *ngIf="_displayedPageSizeOptions.length > 1"
+          [color]="color"
+          class="mat-paginator-page-size-select">
+          <mat-select
+            [value]="pageSize"
+            [disabled]="disabled"
+            [aria-label]="_intl.itemsPerPageLabel"
+            (selectionChange)="_changePageSize($event.value)">
+            <mat-option *ngFor="let pageSizeOption of _displayedPageSizeOptions" [value]="pageSizeOption">
+              {{pageSizeOption}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div *ngIf="_displayedPageSizeOptions.length <= 1">{{pageSize}}</div>
+        &nbsp;&nbsp;par page
+      </div>
+
+    </div>
+
+  </div>
+</div>
